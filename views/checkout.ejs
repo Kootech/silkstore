@@ -1,0 +1,294 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://www.paypalobjects.com/webstatic/en_US/developer/docs/css/cardfields.css"
+    />
+    <script
+      src="https://www.paypal.com/sdk/js?components=buttons,hosted-fields&client-id=<%= clientId %>"
+      data-client-token="<%= clientToken %>"
+    ></script>
+    <link
+      href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <script src="/index.77e1f27a.js" type="module" defer></script>
+    <title>checkout</title>
+  </head>
+  <body>
+    <%- include('header') %>
+    <div class="gap-2 grid grid-cols-2 mt-24">
+      <div class="m-2">
+        <div id="paypal-button-container" class="paypal-button-container"></div>
+        <div class="card_container">
+          <h2 class="font-xl text-center">CARD DETAILS</h2>
+          <form id="card-form">
+            <div class="border-2">
+              <label for="card-number">Card Number</label>
+              <div id="card-number" class="card_field"></div>
+              <div style="flex-direction: row; display: flex">
+                <div>
+                  <label for="expiration-date">Expiration Date</label>
+                  <div id="expiration-date" class="card_field"></div>
+                </div>
+                <div style="margin-left: 10px">
+                  <label for="cvv">CVV</label>
+                  <div id="cvv" class="card_field"></div>
+                </div>
+              </div>
+              <label for="card-holder-name">Name on Card</label>
+              <input
+                type="text"
+                id="card-holder-name"
+                name="card-holder-name"
+                autocomplete="off"
+                placeholder="card holder name"
+              />
+            </div>
+            <div>
+              <h2 class="font-sm text-center">Shipping Address</h2>
+              <label for="card-billing-address-street">Billing Address</label>
+              <input
+                type="text"
+                id="card-billing-address-street"
+                name="card-billing-address-street"
+                autocomplete="off"
+                placeholder="street address"
+              />
+            </div>
+            <div>
+              <label for="card-billing-address-unit">&nbsp;</label>
+              <input
+                type="text"
+                id="card-billing-address-unit"
+                name="card-billing-address-unit"
+                autocomplete="off"
+                placeholder="unit"
+              />
+            </div>
+            <div>
+              <input
+                type="text"
+                id="card-billing-address-city"
+                name="card-billing-address-city"
+                autocomplete="off"
+                placeholder="city"
+              />
+            </div>
+            <div>
+              <input
+                type="text"
+                id="card-billing-address-state"
+                name="card-billing-address-state"
+                autocomplete="off"
+                placeholder="state"
+              />
+            </div>
+            <div>
+              <input
+                type="text"
+                id="card-billing-address-zip"
+                name="card-billing-address-zip"
+                autocomplete="off"
+                placeholder="zip / postal code"
+              />
+            </div>
+            <br /><br />
+            <button value="submit" id="submit" class="btn">Pay</button>
+          </form>
+        </div>
+      </div>
+      <div class="m-2">
+        <div class="border-2 radius-md">
+          <h2 class="font-bold font-xl text-center">Items in Cart</h2>
+          <div>
+            <section data-cart="" class="invisible">
+              <div data-cart-items-wrapper="" class="mb-4 mr-4 mt-20">
+                <div
+                  style="max-height: calc(100vh - 6rem)"
+                  class="bg-white body-font border flex flex-col rounded-lg shadow-lg text-gray-700"
+                >
+                  <div
+                    data-cart-items=""
+                    class="overflow-y-auto pt-4 px-4"
+                  ></div>
+                  <div class="border-t flex items-end justify-between p-4">
+                    <span class="font-bold text-lg uppercase">Total</span>
+                    <span data-cart-total="" class="font-bold"></span>
+                  </div>
+                </div>
+              </div>
+              <button
+                data-cart-button=""
+                class="bg-blue-500 fixed hover:bg-blue-700 invisible mr-4 mt-4 p-2 right-0 rounded-full text-white top-0 w-12"
+              >
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13 5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-8 2a2 2 0 1 1-4 0 2 2 0 0 1 4 0z"
+                  />
+                </svg>
+                <div
+                  data-cart-quantity=""
+                  class="absolute bg-red-500 bottom-0 flex h-6 items-center justify-center right-0 rounded-full text-xs transform translate-x-2 translate-y-2 w-6"
+                ></div>
+              </button>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+    <template id="cart-item-template">
+      <div data-item="" class="flex justify-around mb-6">
+        <div class="block h-24 overflow-hidden relative rounded">
+          <img
+            data-image=""
+            alt="ecommerce"
+            class="block h-full object-center object-cover rounded w-full"
+          />
+        </div>
+        <div class="flex justify-between mt-2">
+          <div class="flex items-center title-font">
+            <h2
+              data-name=""
+              class="font-medium mx-6 text-gray-900 text-lg"
+            ></h2>
+            <span
+              data-quantity=""
+              class="font-bold ml-1 text-gray-600 text-sm"
+            ></span>
+          </div>
+        </div>
+        <div data-price="" class="grid items-center"></div>
+        <button
+          data-remove-from-cart-button=""
+          class="bg-black flex h-6 items-center justify-center rounded-tr text-[40px] text-white w-6"
+        >
+          &times;
+        </button>
+      </div>
+    </template>
+    <script>
+      function loadTotal() {
+        const e = sessionStorage.getItem("shoppingcart-totalAmount");
+        return JSON.parse(e);
+      }
+      const totalAmount = loadTotal(),
+        cartTotal = parseFloat(totalAmount.slice(1));
+      if (
+        (paypal
+          .Buttons({
+            createOrder: function (e, t) {
+              return fetch("/api/orders", {
+                method: "post",
+                headers: { "content-Type": "application/json" },
+                body: JSON.stringify({ purchaseAmount: cartTotal }),
+              })
+                .then((e) => e.json())
+                .then((e) => e.id);
+            },
+            onApprove: function (e, t) {
+              return fetch(`/api/orders/${e.orderID}/capture`, {
+                method: "post",
+              })
+                .then((e) => e.json())
+                .then((e) => {
+                  console.log("Capture result", e, JSON.stringify(e, null, 2));
+                  const t = e.purchase_units[0].payments.captures[0];
+                  alert(
+                    `Transaction ${t.status}: ${t.id}\n\n            See console for all available details\n          `
+                  );
+                });
+            },
+          })
+          .render("#paypal-button-container"),
+        paypal.HostedFields.isEligible())
+      ) {
+        let e;
+        paypal.HostedFields.render({
+          createOrder: () =>
+            fetch("/api/orders", {
+              method: "post",
+              headers: { "content-Type": "application/json" },
+              body: JSON.stringify({ purchaseAmount: cartTotal }),
+            })
+              .then((e) => e.json())
+              .then((t) => ((e = t.id), t.id)),
+          styles: {
+            ".valid": { color: "green" },
+            ".invalid": { color: "red" },
+          },
+          fields: {
+            number: {
+              selector: "#card-number",
+              placeholder: "4111 1111 1111 1111",
+            },
+            cvv: { selector: "#cvv", placeholder: "123" },
+            expirationDate: {
+              selector: "#expiration-date",
+              placeholder: "MM/YY",
+            },
+          },
+        }).then((t) => {
+          document
+            .querySelector("#card-form")
+            .addEventListener("submit", (r) => {
+              r.preventDefault(),
+                t
+                  .submit({
+                    cardholderName:
+                      document.getElementById("card-holder-name").value,
+                    billingAddress: {
+                      streetAddress: document.getElementById(
+                        "card-billing-address-street"
+                      ).value,
+                      extendedAddress: document.getElementById(
+                        "card-billing-address-unit"
+                      ).value,
+                      region: document.getElementById(
+                        "card-billing-address-state"
+                      ).value,
+                      locality: document.getElementById(
+                        "card-billing-address-city"
+                      ).value,
+                      postalCode: document.getElementById(
+                        "card-billing-address-zip"
+                      ).value,
+                      countryCodeAlpha2: "US",
+                    },
+                  })
+                  .then(() => {
+                    fetch(`/api/orders/${e}/capture`, { method: "post" })
+                      .then((e) => e.json())
+                      .then((e) => {
+                        const t = Array.isArray(e.details) && e.details[0];
+                        if (t) {
+                          var r =
+                            "Sorry, your transaction could not be processed.";
+                          return (
+                            t.description && (r += "\n\n" + t.description),
+                            e.debug_id && (r += " (" + e.debug_id + ")"),
+                            alert(r)
+                          );
+                        }
+                        sessionStorage.removeItem("SHOPPING_CART-cart");
+                        window.location = "/success";
+                      });
+                  })
+                  .catch((e) => {
+                    alert(
+                      "Payment could not be captured! " + JSON.stringify(e)
+                    );
+                  });
+            });
+        });
+      } else document.querySelector("#card-form").style = "display: none";
+    </script>
+    <%- include('footer') %>
+  </body>
+</html>
